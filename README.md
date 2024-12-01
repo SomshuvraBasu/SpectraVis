@@ -1,5 +1,5 @@
 
-# Spectral Visualization Tool for Hyperspectral Data Cubes
+# Spectral Analysis Tool for Hyperspectral Data Cubes
 
 ## Overview
 This tool enables the visualization and analysis of hyperspectral data cubes by allowing users to interactively select points on a False Color Composite (FCC) image. Once the points are selected, the corresponding spectra are plotted for easy inspection.
