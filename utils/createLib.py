@@ -158,8 +158,13 @@ class SpectralLibraryCreationTool:
         """
         View existing library entries
         """
+        # Close existing library figure if it exists
+        if 'Spectral Library' in plt.get_figlabels():
+            plt.close('Spectral Library')
+
         # Create a new figure to show library entries
-        lib_fig, lib_ax = plt.subplots(figsize=(10, 6))
+        lib_fig, lib_ax = plt.subplots(figsize=(10, 6), label='Spectral Library')
+
         lib_fig.suptitle('Spectral Library Entries', fontsize=16)
         lib_fig.canvas.manager.set_window_title('Spectral Library')
         
