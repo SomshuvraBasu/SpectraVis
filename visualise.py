@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import json
 from utils.FCC import create_rgb_image
-from utils.canvasHandler import CanvasHandler  # Import the CanvasHandler class
+from utils.canvasHandler import CanvasHandler
 
 # Load the hyperspectral data cube
 image_data = np.load('data/Salinas_corrected.npy')
@@ -12,7 +12,7 @@ image_data = np.load('data/Salinas_corrected.npy')
 with open('data/metadata.json', 'r') as f:
     metadata = json.load(f)
 
-max_pixels = 5
+max_pixels = 10
 
 # Create the RGB image from the hyperspectral data
 rgb_image = create_rgb_image(image_data)
@@ -26,7 +26,7 @@ ax.imshow(rgb_image)
 ax.set_title(f"Click on the FCC image to select up to {max_pixels} pixels")
 
 # Initialize the CanvasHandler to manage clicks and submit
-canvas_handler = CanvasHandler(fig, ax, rgb_image, image_data, metadata, max_pixels=5)
+canvas_handler = CanvasHandler(fig, ax, rgb_image, image_data, metadata, max_pixels)
 
 # Show the plot
 plt.show()
