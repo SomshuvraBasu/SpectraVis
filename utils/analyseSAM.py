@@ -100,8 +100,8 @@ def plot_library_comparison(image_data, metadata, pixel, library_path='data/spec
     labels = list(sam_scores.keys())
     scores = [entry['sam_score'] for entry in sam_scores.values()]
 
-    sam_high_confidence = 0.02
-    sam_low_confidence = 0.05
+    sam_high_confidence = 0.03
+    sam_low_confidence = 0.1
     
     # Color bars based on the score
     colors = []
@@ -111,7 +111,7 @@ def plot_library_comparison(image_data, metadata, pixel, library_path='data/spec
         elif score > sam_high_confidence and score < sam_low_confidence:
             colors.append('yellow')  # Low confidence (higher SAM score)
         else:
-            colors.append('red')  # Borderline confidence
+            colors.append('grey')  # Borderline confidence
     
     # Create the plot
     plt.figure(figsize=(10, 6))
@@ -129,26 +129,28 @@ def plot_library_comparison(image_data, metadata, pixel, library_path='data/spec
                  ha='center', va='bottom')
 
     # Annotate threshold
-    plt.axhline(y=0.02, color='blue', linestyle='--')
-    plt.text(len(sam_scores) - 1, 0.02, "High Confidence", color='blue', ha='right')
-    plt.axhline(y=0.05, color='orange', linestyle='--')
-    plt.text(len(sam_scores) - 1, 0.05, "Low Confidence", color='orange', ha='right')
+    plt.axhline(y=sam_high_confidence, color='blue', linestyle='--')
+    plt.text(len(sam_scores) - 1, sam_high_confidence, "High Confidence", color='blue', ha='right')
+    plt.axhline(y=sam_low_confidence, color='orange', linestyle='--')
+    plt.text(len(sam_scores) - 1, sam_low_confidence, "Low Confidence", color='orange', ha='right')
 
     #annotate the plot to display which library entry is the best match which should be atleast less than sam_low_confidence and if possible less than sam_high_confidence
     best_match = None
     for label, entry in sam_scores.items():
-        if entry['sam_score'] <= sam_high_confidence:
-            best_match = label
-            confidence = 'High Confidence'
-        elif entry['sam_score'] <= sam_low_confidence:
+        if entry['sam_score'] <= sam_low_confidence:
             best_match = label
             confidence = 'Low Confidence'
+            if entry['sam_score'] <= sam_high_confidence:
+                best_match = label
+                confidence = 'High Confidence'
+            else:
+                continue
         else:
             continue
     if best_match:
-        plt.text(0, 0.1, f"Best Match: {best_match} ({confidence})", color='black', ha='left')
+        plt.text(0, 0.6, f"Best Match: {best_match} ({confidence})", color='black', ha='left')
     else:
-        plt.text(0, 0.1, "No confident match found", color='black', ha='left')
+        plt.text(0, 0.6, "No confident match found", color='black', ha='left')
 
     # Show the plot
     plt.show()
