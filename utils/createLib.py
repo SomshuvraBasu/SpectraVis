@@ -172,16 +172,19 @@ class SpectralLibraryCreationTool:
         entries = list(self.library.keys())
         for i, label in enumerate(entries):
             entry = self.library[label]
+            wavelength = [int(w) for w in list(entry['spectrum'].keys())]
+            radiance = list(entry['spectrum'].values())
+
             lib_ax.plot(
-                list(entry['spectrum'].keys()),
-                list(entry['spectrum'].values()),
+                wavelength,
+                radiance,
                 label=f"{label}"
-            )
+        )
         
         lib_ax.set_xlabel("Wavelength (nm)")
         lib_ax.set_ylabel("Radiance (DN)")
-        lib_ax.legend()
         
+        lib_ax.legend()
         plt.tight_layout()
         plt.show()
 
