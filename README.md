@@ -1,6 +1,9 @@
 
 # Spectral Analysis Tool for Hyperspectral Data Cubes
 
+![SpectraVis](https://github.com/user-attachments/assets/7fa2b608-789d-4f34-b74d-543236ad0a47)
+
+
 ## Overview
 This tool enables the visualization and analysis of hyperspectral data cubes by allowing users to interactively select points on a False Color Composite (FCC) image. Once the points are selected, the corresponding spectra are plotted for easy inspection, saving to library and to compare with other spectrums.
 
