@@ -31,15 +31,20 @@ class SpectralVisualizationWidget(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
         
-        # Matplotlib figure
-        self.figure, self.ax = plt.subplots(figsize=(12, 6))
+        # Matplotlib figure with two subplots side by side
+        self.figure, (self.ax1, self.ax2) = plt.subplots(1, 2, figsize=(16, 6))
         self.canvas = FigureCanvas(self.figure)
         layout.addWidget(self.canvas)
         
-        # RGB Image setup
+        # RGB Image setup (left subplot)
         self.rgb_image = create_rgb_image(self.image_data)
-        self.ax.imshow(self.rgb_image)
-        self.ax.set_title(f"Click on the image to select up to {self.max_pixels} pixels")
+        self.ax1.imshow(self.rgb_image)
+        self.ax1.set_title(f"Click on the image to select up to {self.max_pixels} pixels")
+        
+        # Spectrum plot setup (right subplot)
+        self.ax2.set_title("Pixel Spectrum")
+        self.ax2.set_xlabel("Wavelength (nm)")
+        self.ax2.set_ylabel("Radiance (DN)")
         
         # Controls layout
         controls_layout = QHBoxLayout()
@@ -60,7 +65,7 @@ class SpectralVisualizationWidget(QWidget):
         controls_layout.addWidget(reset_button)
         
         # Clear plot button
-        clear_plot_button = QPushButton("Clear Plot")
+        clear_plot_button = QPushButton("Clear Spectrum")
         clear_plot_button.clicked.connect(self.clear_spectrum_plot)
         controls_layout.addWidget(clear_plot_button)
         
@@ -74,34 +79,32 @@ class SpectralVisualizationWidget(QWidget):
         # Connect click event
         self.canvas_handler = CanvasHandler(
             self.figure, 
-            self.ax, 
+            self.ax1,  # Pass RGB image subplot 
+            self.ax2,  # Pass spectrum subplot
             self.rgb_image, 
             self.image_data, 
             self.metadata, 
             self.max_pixels
         )
         self.canvas.mpl_connect('button_press_event', self.canvas_handler.on_click)
-    
+
+    # Update these methods to work with two-subplot layout
     def update_max_pixels(self, value):
         """Update the maximum number of pixels that can be selected"""
         self.max_pixels = value
         self.canvas_handler.max_pixels = value
-        self.ax.set_title(f"Click on the image to select up to {self.max_pixels} pixels")
+        self.ax1.set_title(f"Click on the image to select up to {self.max_pixels} pixels")
         self.canvas.draw()
-    
+
     def reset_selection(self):
         """Reset the pixel selection and clear the plot"""
         self.canvas_handler.reset()
-        
-        # Redraw the RGB image
-        self.ax.clear()
-        self.ax.imshow(self.rgb_image)
-        self.ax.set_title(f"Click on the image to select up to {self.max_pixels} pixels")
         self.canvas.draw()
-    
+
     def clear_spectrum_plot(self):
-        """Clear the separate spectrum plot if one exists"""
+        """Clear the spectrum plot"""
         self.canvas_handler.clear_spectrum_plot()
+        self.canvas.draw()
 
 class SpectralLibraryCreationWidget(QWidget):
     def __init__(self, image_data, metadata, library_path):
@@ -387,11 +390,14 @@ def main():
     with open('data/metadata.json', 'r') as f:
         metadata = json.load(f)
 
+    # Load the spectral library
+    spectral_library = 'data/spectral_library.json'
+
     # Create application
     app = QApplication(sys.argv)
     
     # Create and show main window
-    main_window = SpectralAnalysisTool(image_data, metadata)
+    main_window = SpectralAnalysisTool(image_data, metadata, spectral_library)
     main_window.show()
     
     # Run the application
