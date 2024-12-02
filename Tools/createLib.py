@@ -2,9 +2,9 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button, TextBox
-from utils.FCC import create_rgb_image
-from utils.pixelSpectrum import get_pixel_spectrum
-from utils.spectralLib import save_entry_to_library, view_library
+from ..utils.FCC import create_rgb_image
+from ..utils.pixelSpectrum import get_pixel_spectrum
+from ..utils.spectralLib import save_entry_to_library, view_library
 
 class SpectralLibraryCreationTool:
     def __init__(self, image_data, metadata, library_path='data/spectral_library.json'):

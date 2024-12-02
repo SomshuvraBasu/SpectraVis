@@ -2,8 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import json
-from utils.FCC import create_rgb_image
-from utils.canvasHandler import CanvasHandler
+from ..utils.FCC import create_rgb_image
+from ..utils.canvasHandler import CanvasHandler
 
 class SpectralVisualizationTool:
     def __init__(self, image_data, metadata, max_pixels=10):

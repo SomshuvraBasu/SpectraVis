@@ -2,8 +2,8 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import json
-from utils.FCC import create_rgb_image
-from utils.analyseSAM import compare_pixel_to_library
+from ..utils.FCC import create_rgb_image
+from ..utils.analyseSAM import compare_pixel_to_library
 
 class SAMComparisonTool:
     def __init__(self, image_data, metadata, library_path='data/spectral_library.json'):
