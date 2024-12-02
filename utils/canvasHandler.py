@@ -47,6 +47,19 @@ class CanvasHandler:
             # Plot all selected pixel spectra
             self.plot_spectra()
 
+    def undo_last_selection(self):
+        """
+        Remove the last pixel selection and its corresponding spectrum.
+        """
+        if self.selected_pixels:
+            # Remove the last pixel and its spectrum
+            self.selected_pixels.pop()
+            self.selected_pixel_data.pop()
+
+            # Update the image and spectrum plot
+            self.update_image()
+            self.plot_spectra()
+
     def plot_spectra(self):
         """
         Plot spectra for all selected pixels with pixel coordinates in the legend.

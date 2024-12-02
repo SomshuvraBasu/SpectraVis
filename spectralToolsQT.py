@@ -64,10 +64,10 @@ class SpectralVisualizationWidget(QWidget):
         reset_button.clicked.connect(self.reset_selection)
         controls_layout.addWidget(reset_button)
         
-        # Clear plot button
-        clear_plot_button = QPushButton("Clear Spectrum")
-        clear_plot_button.clicked.connect(self.clear_spectrum_plot)
-        controls_layout.addWidget(clear_plot_button)
+        # Undo button
+        undo_button = QPushButton("Undo")
+        undo_button.clicked.connect(self.undo_last_selection)
+        controls_layout.addWidget(undo_button)
         
         layout.addLayout(controls_layout)
         self.setLayout(layout)
@@ -101,9 +101,11 @@ class SpectralVisualizationWidget(QWidget):
         self.canvas_handler.reset()
         self.canvas.draw()
 
-    def clear_spectrum_plot(self):
-        """Clear the spectrum plot"""
-        self.canvas_handler.clear_spectrum_plot()
+    def undo_last_selection(self):
+        """
+        Undo the last pixel selection.
+        """
+        self.canvas_handler.undo_last_selection()
         self.canvas.draw()
 
 class SpectralLibraryCreationWidget(QWidget):
