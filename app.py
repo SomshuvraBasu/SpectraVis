@@ -41,6 +41,7 @@ class DataInputWidget(QWidget):
         # Data storage
         self.image_data = None
         self.metadata = None
+        self.spectral_library = None
     
     def select_image(self):
         filepath, _ = QFileDialog.getOpenFileName(self, "Select Hyperspectral Image", 
