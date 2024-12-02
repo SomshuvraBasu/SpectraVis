@@ -77,7 +77,7 @@ class DataInputWidget(QWidget):
 class HyperspectralAnalysisTool(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SpectraVis - Hyperspectral Analysis Tool")
+        self.setWindowTitle("SpectraVis")
         self.setGeometry(100, 100, 300, 300)
         
         # Main widget
