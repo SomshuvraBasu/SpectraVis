@@ -329,14 +329,51 @@ class SAMComparisonWidget(QWidget):
             sam_high_confidence = 0.03
             sam_low_confidence = 0.1
             
+            # Determine color and best match for each confidence category
+            colors = []
+            best_high_confidence = None
+            best_low_confidence = None
+            
+            # Find the lowest SAM score within each confidence category
+            for i, score in enumerate(scores):
+                if score <= sam_high_confidence:
+                    # High confidence category
+                    if best_high_confidence is None or score < scores[best_high_confidence]:
+                        best_high_confidence = i
+                elif score <= sam_low_confidence:
+                    # Low confidence category
+                    if best_low_confidence is None or score < scores[best_low_confidence]:
+                        best_low_confidence = i
+            
+            # Assign colors based on score and best matches
             colors = [
+                'darkgreen' if i == best_high_confidence and score <= sam_high_confidence else
                 'green' if score <= sam_high_confidence else
-                'yellow' if score <= sam_low_confidence else 
-                'grey' for score in scores
+                'darkgoldenrod' if i == best_low_confidence and sam_high_confidence < score <= sam_low_confidence else
+                'yellow' if sam_high_confidence < score <= sam_low_confidence else 
+                'grey' for i, score in enumerate(scores)
             ]
             
             self.ax2.clear()
-            self.ax2.bar(labels, scores, color=colors)
+            bars = self.ax2.bar(labels, scores, color=colors)
+            
+            # Add value annotations with confidence level
+            for i, (bar, score) in enumerate(zip(bars, scores)):
+                # Determine confidence annotation
+                if score <= sam_high_confidence:
+                    conf_text = '[High Confidence]' if i == best_high_confidence else ''
+                elif score <= sam_low_confidence:
+                    conf_text = '[Low Confidence]' if i == best_low_confidence else ''
+                else:
+                    conf_text = ''
+                
+                # Position text slightly above the bar
+                self.ax2.text(bar.get_x() + bar.get_width()/2, 
+                            bar.get_height(), 
+                            f'{score:.4f}\n{conf_text}', 
+                            ha='center', 
+                            va='bottom')
+            
             self.ax2.set_title(f"SAM Scores for Selected Pixel")
             self.ax2.set_xlabel("Library Entry")
             self.ax2.set_ylabel("SAM Score (radians)")
@@ -348,6 +385,25 @@ class SAMComparisonWidget(QWidget):
             
             self.ax2.axhline(y=sam_low_confidence, color='orange', linestyle='--')
             self.ax2.text(len(sam_scores) - 1, sam_low_confidence, "Low Confidence", color='orange', ha='right')
+            
+            # Optional: Add a custom legend to explain color coding
+            legend_labels = [
+                'Best HC Match',
+                'HC Match', 
+                'Best LC Match',
+                'LC Match', 
+                'No Match'
+            ]
+            legend_colors = ['darkgreen', 'green', 'darkgoldenrod', 'yellow', 'grey']
+            
+            # Create custom legend patches
+            from matplotlib.patches import Patch
+            legend_elements = [Patch(facecolor=color, label=label) 
+                            for color, label in zip(legend_colors, legend_labels)]
+            
+            self.ax2.legend(handles=legend_elements, loc='best', bbox_to_anchor=(1.05, 1), borderaxespad=0.)
+            
+            plt.tight_layout()
         
         except Exception as e:
             QMessageBox.critical(self, "Error", f"SAM comparison failed: {str(e)}")
