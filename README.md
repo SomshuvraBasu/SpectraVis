@@ -68,8 +68,15 @@ python app.py
 
 ## Demo
 
+### Screenshots
+<img width="1196" alt="Spectral Visualisation" src="https://github.com/user-attachments/assets/bba35e71-572b-4f10-91ff-8c1d0515cc0b">
+<img width="1196" alt="Spectral Library" src="https://github.com/user-attachments/assets/b083f18f-9cbd-4a63-8476-2b21809be221">
+<img width="1196" alt="Spectral Comparison" src="https://github.com/user-attachments/assets/cf0f825d-e8c9-4514-bc16-ef18268513a7">
 
-https://github.com/user-attachments/assets/210b7631-2536-48d5-be09-99a483d33b6f
+
+### Video
+
+https://github.com/user-attachments/assets/b10db07b-b5a6-4df9-97d8-d8f42221b453
 
 
 ## File Structure
