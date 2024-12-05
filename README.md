@@ -77,6 +77,7 @@ python app.py
 ### Video
 
 https://github.com/user-attachments/assets/b10db07b-b5a6-4df9-97d8-d8f42221b453
+https://www.youtube.com/embed/JJNc62DRIW4
 
 
 ## File Structure
