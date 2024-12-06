@@ -7,6 +7,8 @@
 ## Overview
 This tool enables the visualization and analysis of hyperspectral data cubes by allowing users to interactively select points on a False Color Composite (FCC) image. Once the points are selected, the corresponding spectra are plotted for easy inspection, saving to library and to compare with other spectrums.
 
+Repository: https://github.com/SomshuvraBasu/SpectraVis
+
 ## Features
 ### 1. Spectral Visualization
 The spectral visualization module enables comprehensive exploration of pixel spectra within a Hyperspectral Data Cube. This feature allows:
